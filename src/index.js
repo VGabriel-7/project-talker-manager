@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const randomToken = require('random-token');
 const { readTalkers, findTalkerById } = require('./Utils/fsUtils');
+const { validLoginMD } = require('./Utils/middlewaresUtils');
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,7 +29,7 @@ app.get('/talker', async (_req, res) => {
   res.status(HTTP_OK_STATUS).json(talkers);
 });
 
-// Returns a talker #2
+// Return a talker #2
 app.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -38,4 +40,10 @@ app.get('/talker/:id', async (req, res) => {
   } else {
     res.status(HTTP_NOT_FOUND_STATUS).json({ message: 'Pessoa palestrante não encontrada' });
   }
+});
+
+// Recive email and password, return a random token #3 & #4
+app.post('/login', validLoginMD, (_req, res) => {
+  const token = randomToken(16);
+  res.status(HTTP_OK_STATUS).json({ token });
 });
