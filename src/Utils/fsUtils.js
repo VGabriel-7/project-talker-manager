@@ -49,8 +49,19 @@ async function updateTalker(id, updateTalkerData) {
   const updateData = JSON.stringify(updatedTalkers);
   try {
     await fs.writeFile(path.resolve(__dirname, TALKER_DATA_PATH), updateData);
-    console.log(updateTalkerWithId);
+
     return updateTalkerWithId;
+  } catch (error) {
+    console.error(`Erro na leitura do arquivo: ${error}`);
+  }
+}
+
+async function deleteTalker(talkerId) {
+  const dataTalkers = await readTalkers();
+  const updatedTalkers = JSON.stringify(dataTalkers.filter(({ id }) => id !== talkerId));
+  
+  try {
+    await fs.writeFile(path.resolve(__dirname, TALKER_DATA_PATH), updatedTalkers);
   } catch (error) {
     console.error(`Erro na leitura do arquivo: ${error}`);
   }
@@ -74,4 +85,5 @@ module.exports = {
   findTalkerById,
   addNewTalker,
   updateTalker,
+  deleteTalker,
 };

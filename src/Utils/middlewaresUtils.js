@@ -28,7 +28,16 @@ const validDataTalkerMD = (req, res, next) => {
   }
 };
 
+const validTokenToDelet = (req, res, next) => {
+  const { authorization } = req.headers;
+
+  if (validToken(authorization)) {
+    res.status(HTTP_UNAUTHORIZED).json(validToken(authorization));
+  } else next();
+};
+
 module.exports = {
   validLoginMD,
   validDataTalkerMD,
+  validTokenToDelet,
 };

@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const randomToken = require('random-token');
-const { readTalkers, findTalkerById, addNewTalker, updateTalker } = require('./Utils/fsUtils');
-const { validLoginMD, validDataTalkerMD } = require('./Utils/middlewaresUtils');
+const { readTalkers, findTalkerById,
+  addNewTalker, updateTalker, deleteTalker } = require('./Utils/fsUtils');
+const { validLoginMD, validDataTalkerMD, validTokenToDelet } = require('./Utils/middlewaresUtils');
 
 const app = express();
 app.use(bodyParser.json());
@@ -10,6 +11,7 @@ app.use(bodyParser.json());
 const HTTP_OK_STATUS = 200;
 const HTTP_NOT_FOUND_STATUS = 404;
 const HTTP_CREATED = 201;
+const HTTP_NO_CONTENT = 204;
 const PORT = '3000';
 
 // não remova esse endpoint, e para o avaliador funcionar
@@ -64,4 +66,12 @@ app.put('/talker/:id', validDataTalkerMD, async (req, res) => {
   const updatedTalker = await updateTalker(Number(id), dataTalker);
 
   res.status(HTTP_OK_STATUS).json(updatedTalker);
+});
+
+app.delete('/talker/:id', validTokenToDelet, async (req, res) => {
+  const { id } = req.params;
+
+  await deleteTalker(Number(id));
+
+  res.status(HTTP_NO_CONTENT).end();
 });
