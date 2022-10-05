@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const randomToken = require('random-token');
 const { readTalkers, findTalkerById,
-  addNewTalker, updateTalker, deleteTalker } = require('./Utils/fsUtils');
-const { validLoginMD, validDataTalkerMD, validTokenToDelet } = require('./Utils/middlewaresUtils');
+  addNewTalker, updateTalker, deleteTalker, searchTalker } = require('./Utils/fsUtils');
+const { validLoginMD, validDataTalkerMD, validatedToken } = require('./Utils/middlewaresUtils');
 
 const app = express();
 app.use(bodyParser.json());
@@ -30,6 +30,14 @@ app.get('/talker', async (_req, res) => {
   const talkers = await readTalkers();
 
   res.status(HTTP_OK_STATUS).json(talkers);
+});
+
+// find an talkers using the param
+app.get('/talker/search', validatedToken, async (req, res) => {
+  const { q } = req.query;
+
+  const searchArray = await searchTalker(q);
+  res.status(HTTP_OK_STATUS).send(searchArray);
 });
 
 // Return a talker #2
@@ -59,6 +67,7 @@ app.post('/talker', validDataTalkerMD, async (req, res) => {
   res.status(HTTP_CREATED).json(newTalkerWithId);
 });
 
+// update a talker
 app.put('/talker/:id', validDataTalkerMD, async (req, res) => {
   const { id } = req.params;
   const dataTalker = req.body;
@@ -68,7 +77,8 @@ app.put('/talker/:id', validDataTalkerMD, async (req, res) => {
   res.status(HTTP_OK_STATUS).json(updatedTalker);
 });
 
-app.delete('/talker/:id', validTokenToDelet, async (req, res) => {
+// delete a talkker
+app.delete('/talker/:id', validatedToken, async (req, res) => {
   const { id } = req.params;
 
   await deleteTalker(Number(id));

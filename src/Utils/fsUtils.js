@@ -67,15 +67,15 @@ async function deleteTalker(talkerId) {
   }
 }
 
+async function searchTalker(searchTerm) {
+  const dataTalkers = await readTalkers();
+  const searchTalkers = dataTalkers.filter(({ name }) => name.includes(searchTerm));
+
+  return searchTalkers;
+}
+
 // const testTheFuncs = async () => {
-//   console.log(await addNewTalker({
-//     name: 'Danielle Santos',
-//     age: 56,
-//     talk: {
-//       watchedAt: '22/10/2019',
-//       rate: 5,
-//     },
-//   }));
+//   console.log(await searchTalker('Dan'));
 // };
 
 // testTheFuncs();
@@ -86,4 +86,5 @@ module.exports = {
   addNewTalker,
   updateTalker,
   deleteTalker,
+  searchTalker,
 };

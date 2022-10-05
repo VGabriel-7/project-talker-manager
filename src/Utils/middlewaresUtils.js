@@ -28,7 +28,7 @@ const validDataTalkerMD = (req, res, next) => {
   }
 };
 
-const validTokenToDelet = (req, res, next) => {
+const validatedToken = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (validToken(authorization)) {
@@ -39,5 +39,5 @@ const validTokenToDelet = (req, res, next) => {
 module.exports = {
   validLoginMD,
   validDataTalkerMD,
-  validTokenToDelet,
+  validatedToken,
 };
