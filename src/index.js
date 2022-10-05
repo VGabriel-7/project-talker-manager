@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const randomToken = require('random-token');
-const { readTalkers, findTalkerById, addNewTalker } = require('./Utils/fsUtils');
-const { validLoginMD, validNewTalkerMD } = require('./Utils/middlewaresUtils');
+const { readTalkers, findTalkerById, addNewTalker, updateTalker } = require('./Utils/fsUtils');
+const { validLoginMD, validDataTalkerMD } = require('./Utils/middlewaresUtils');
 
 const app = express();
 app.use(bodyParser.json());
@@ -50,9 +50,18 @@ app.post('/login', validLoginMD, (_req, res) => {
 });
 
 // Add a new Talker
-app.post('/talker', validNewTalkerMD, async (req, res) => {
+app.post('/talker', validDataTalkerMD, async (req, res) => {
   const newTalker = req.body;
 
   const newTalkerWithId = await addNewTalker(newTalker);
   res.status(HTTP_CREATED).json(newTalkerWithId);
+});
+
+app.put('/talker/:id', validDataTalkerMD, async (req, res) => {
+  const { id } = req.params;
+  const dataTalker = req.body;
+
+  const updatedTalker = await updateTalker(Number(id), dataTalker);
+
+  res.status(HTTP_OK_STATUS).json(updatedTalker);
 });

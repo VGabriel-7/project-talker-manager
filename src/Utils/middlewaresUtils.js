@@ -15,7 +15,7 @@ const validLoginMD = (req, res, next) => {
   }
 };
 
-const validNewTalkerMD = (req, res, next) => {
+const validDataTalkerMD = (req, res, next) => {
   const { authorization } = req.headers;
   const dataNewTalker = req.body;
 
@@ -30,5 +30,5 @@ const validNewTalkerMD = (req, res, next) => {
 
 module.exports = {
   validLoginMD,
-  validNewTalkerMD,
+  validDataTalkerMD,
 };

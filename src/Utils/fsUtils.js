@@ -38,6 +38,24 @@ async function addNewTalker(newTalker) {
   }
 }
 
+async function updateTalker(id, updateTalkerData) {
+  const oldTalkers = await readTalkers();
+  const updateTalkerWithId = { id, ...updateTalkerData };
+  const updatedTalkers = oldTalkers.reduce((talkerList, currTalker) => {
+    if (updateTalkerWithId.id === currTalker.id) return [...talkerList, updateTalkerWithId];
+    return [...talkerList, currTalker];
+  }, []);
+  console.log(updatedTalkers);
+  const updateData = JSON.stringify(updatedTalkers);
+  try {
+    await fs.writeFile(path.resolve(__dirname, TALKER_DATA_PATH), updateData);
+    console.log(updateTalkerWithId);
+    return updateTalkerWithId;
+  } catch (error) {
+    console.error(`Erro na leitura do arquivo: ${error}`);
+  }
+}
+
 // const testTheFuncs = async () => {
 //   console.log(await addNewTalker({
 //     name: 'Danielle Santos',
@@ -55,4 +73,5 @@ module.exports = {
   readTalkers,
   findTalkerById,
   addNewTalker,
+  updateTalker,
 };
