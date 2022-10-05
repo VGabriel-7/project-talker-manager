@@ -1,6 +1,7 @@
-const { validEmail, validPassword } = require('../Validation');
+const { validEmail, validPassword, validTalker, validToken } = require('../Validation');
 
 const HTTP_BAD_REQUEST = 400;
+const HTTP_UNAUTHORIZED = 401;
 
 const validLoginMD = (req, res, next) => {
   const { email, password } = req.body;
@@ -14,6 +15,20 @@ const validLoginMD = (req, res, next) => {
   }
 };
 
+const validNewTalkerMD = (req, res, next) => {
+  const { authorization } = req.headers;
+  const dataNewTalker = req.body;
+
+  if (validToken(authorization)) {
+    res.status(HTTP_UNAUTHORIZED).json(validToken(authorization));
+  } else if (validTalker(dataNewTalker)) {
+    res.status(HTTP_BAD_REQUEST).json(validTalker(dataNewTalker));
+  } else {
+    next();
+  }
+};
+
 module.exports = {
   validLoginMD,
+  validNewTalkerMD,
 };

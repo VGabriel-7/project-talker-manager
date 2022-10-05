@@ -1,14 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const randomToken = require('random-token');
-const { readTalkers, findTalkerById } = require('./Utils/fsUtils');
-const { validLoginMD } = require('./Utils/middlewaresUtils');
+const { readTalkers, findTalkerById, addNewTalker } = require('./Utils/fsUtils');
+const { validLoginMD, validNewTalkerMD } = require('./Utils/middlewaresUtils');
 
 const app = express();
 app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
 const HTTP_NOT_FOUND_STATUS = 404;
+const HTTP_CREATED = 201;
 const PORT = '3000';
 
 // não remova esse endpoint, e para o avaliador funcionar
@@ -46,4 +47,12 @@ app.get('/talker/:id', async (req, res) => {
 app.post('/login', validLoginMD, (_req, res) => {
   const token = randomToken(16);
   res.status(HTTP_OK_STATUS).json({ token });
+});
+
+// Add a new Talker
+app.post('/talker', validNewTalkerMD, async (req, res) => {
+  const newTalker = req.body;
+
+  const newTalkerWithId = await addNewTalker(newTalker);
+  res.status(HTTP_CREATED).json(newTalkerWithId);
 });
