@@ -74,12 +74,6 @@ async function searchTalker(searchTerm) {
   return searchTalkers;
 }
 
-// const testTheFuncs = async () => {
-//   console.log(await searchTalker('Dan'));
-// };
-
-// testTheFuncs();
-
 module.exports = {
   readTalkers,
   findTalkerById,
