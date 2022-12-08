@@ -1,13 +1,13 @@
 #
 # 👨‍💻 O que foi desenvolvido<br />
 
-  Neste projeto criei construi uma aplicação de cadastro de talkers (palestrantes) em que é possível cadastrar, visualizar, pesquisar, editar e excluir informações.
+  Neste projeto construi uma aplicação de cadastro de talkers (palestrantes) em que é possível cadastrar, visualizar, pesquisar, editar e excluir informações.
 #
 # 📝 Habilidades<br />
 
 Neste projeto, fui capaz de:
 
-- Desenvolver uma API ded um CRUD (Create, Read, Update e Delete) ded palestrantes (talkes);
+- Desenvolver uma API ded um CRUD (Create, Read, Update e Delete) de palestrantes (talkes);
 
 - Desenvolver alguns endpoints que leem e escrevem em um arquivo utilizando o módulo fs.
 #
